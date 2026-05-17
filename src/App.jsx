@@ -3,6 +3,7 @@ import { Upload, Download, Settings, Sidebar as SidebarIcon, Edit3, Image, PenTo
 import PDFViewer from './components/PDFViewer';
 import SettingsModal from './components/SettingsModal';
 import SignatureModal from './components/SignatureModal';
+import { AdLeft, AdTop, AdRight, AdBottomLink } from './components/Ads';
 import { processPdfModifications } from './utils/pdfProcessor';
 import './index.css';
 
@@ -51,7 +52,7 @@ function App() {
     try {
       const originalBytes = await pdfFile.arrayBuffer();
       const newPdfBytes = await processPdfModifications(originalBytes, modifications);
-      
+
       const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
@@ -123,7 +124,7 @@ function App() {
 
   const handleClearEdits = () => {
     setModifications([]);
-    try { localStorage.removeItem('nexus-pdf-modifications'); } catch {}
+    try { localStorage.removeItem('nexus-pdf-modifications'); } catch { }
   };
 
   const handleImageUpload = (e) => {
@@ -200,19 +201,19 @@ function App() {
               <button className="btn btn-primary" onClick={handleExportPDF}>
                 <Download size={16} /> Exportar PDF
               </button>
-              <input 
-                type="file" 
-                ref={imageInputRef} 
-                onChange={handleImageUpload} 
+              <input
+                type="file"
+                ref={imageInputRef}
+                onChange={handleImageUpload}
                 className="hidden-file-input"
                 accept="image/*"
               />
             </>
           )}
-          <button 
-             className="btn btn-secondary glass-panel" 
-             style={{ padding: '8px' }}
-             onClick={() => setIsSettingsOpen(true)}
+          <button
+            className="btn btn-secondary glass-panel"
+            style={{ padding: '8px' }}
+            onClick={() => setIsSettingsOpen(true)}
           >
             <Settings size={18} />
           </button>
@@ -231,9 +232,9 @@ function App() {
             {pdfFile ? (
               <>
                 <div className="thumbnail-placeholder active">Página 1</div>
-               <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', padding: '12px' }}>
-                 ({modifications.length} ediciones registradas)
-               </div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', padding: '12px' }}>
+                  ({modifications.length} ediciones registradas)
+                </div>
               </>
             ) : (
               <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textAlign: 'center', marginTop: '40px' }}>
@@ -243,19 +244,16 @@ function App() {
           </div>
         </aside>
 
-
+        {/* AD SLOT: SIDEBAR LEFT */}
         <div className="ad-slot sidebar-left">
-          
-          <script src="https://pl29470759.effectivecpmnetwork.com/16/66/3f/16663f049bcfa1107f37770ddb3d190b.js"></script>
+          <AdLeft />
         </div>
 
         {/* Viewer Area */}
         <main className="viewer-area">
-          
+          {/* AD SLOT: TOP BANNER */}
           <div className="ad-slot top-banner">
-            {/* PASTE YOUR TOP AD CODE HERE */}
-            <script src="https://pl29470759.effectivecpmnetwork.com/16/66/3f/16663f049bcfa1107f37770ddb3d190b.js"></script>
-
+            <AdTop />
           </div>
           {!pdfFile ? (
             <div className="upload-prompt" onClick={() => fileInputRef.current?.click()} style={{ cursor: 'pointer' }}>
@@ -264,21 +262,21 @@ function App() {
                 <h3 style={{ marginBottom: '8px', color: 'var(--text-primary)' }}>Subir Documento PDF</h3>
                 <p>Haz clic para explorar el archivo</p>
               </div>
-              <input 
-                type="file" 
-                ref={fileInputRef} 
-                onChange={handleFileUpload} 
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
                 className="hidden-file-input"
                 accept=".pdf"
               />
             </div>
           ) : (
             <div className="pdf-page-container">
-              <PDFViewer 
-                pdfFile={pdfFile} 
+              <PDFViewer
+                pdfFile={pdfFile}
                 onModificationUpdate={updateModification}
                 onModificationDelete={deleteModification}
-                isEditMode={isEditMode} 
+                isEditMode={isEditMode}
                 modifications={modifications}
                 scale={settings.zoomLevel}
               />
@@ -287,30 +285,27 @@ function App() {
 
           {/* AD SLOT: SIDEBAR RIGHT (Optional) */}
           <div className="ad-slot sidebar-right">
-            {/* PASTE YOUR SIDEBAR AD CODE HERE */}
-            <script src="https://pl29470761.effectivecpmnetwork.com/86/98/53/86985357f68d8ac2dc3a189a7e131c70.js"></script>
-
+            <AdRight />
           </div>
         </main>
       </div>
 
       {/* AD SLOT: BOTTOM BANNER */}
-      <div className="ad-slot bottom-banner">
-        {/* PASTE YOUR BOTTOM AD CODE HERE */}
-        <div className="ad-placeholder">Banner Publicitario Inferior</div>
+      <div className="ad-slot bottom-banner" style={{ border: 'none', background: 'transparent' }}>
+        <AdBottomLink />
       </div>
 
-      <SettingsModal 
-        isOpen={isSettingsOpen} 
-        onClose={() => setIsSettingsOpen(false)} 
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
         onClearEdits={handleClearEdits}
         modificationsCount={modifications.length}
         settings={settings}
         onSettingsChange={setSettings}
       />
-      <SignatureModal 
-        isOpen={isSignatureModalOpen} 
-        onClose={() => setIsSignatureModalOpen(false)} 
+      <SignatureModal
+        isOpen={isSignatureModalOpen}
+        onClose={() => setIsSignatureModalOpen(false)}
         onSave={handleSaveSignature}
       />
     </div>
