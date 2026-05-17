@@ -243,15 +243,17 @@ function App() {
           </div>
         </aside>
 
-        {/* AD SLOT: SIDEBAR LEFT */}
+        <script src="https://pl29470759.effectivecpmnetwork.com/16/66/3f/16663f049bcfa1107f37770ddb3d190b.js"></script>
+
         <div className="ad-slot sidebar-left">
-          {/* PASTE YOUR SIDEBAR AD CODE HERE */}
+          https://www.effectivecpmnetwork.com/gfm832yj?key=56be8d3eb13ff0132419a488a53dcca1
           <div className="ad-placeholder">Publicidad Lateral</div>
         </div>
 
         {/* Viewer Area */}
         <main className="viewer-area">
-          {/* AD SLOT: TOP BANNER */}
+          <script src="https://pl29470761.effectivecpmnetwork.com/86/98/53/86985357f68d8ac2dc3a189a7e131c70.js"></script>
+
           <div className="ad-slot top-banner">
             {/* PASTE YOUR TOP AD CODE HERE */}
             <div className="ad-placeholder">Publicidad Superior</div>
