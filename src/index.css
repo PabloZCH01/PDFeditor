@@ -352,8 +352,8 @@ body {
   background: white;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
   margin: 0 auto;
+  width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }
 
 /* ════════════════════════════════════════════
@@ -595,10 +595,9 @@ body {
     padding: 28px 16px;
   }
 
-  /* PDF canvas auto-scale by wrapping */
+  /* PDF canvas fills available width — scale is handled by JS */
   .pdf-page-container {
-    width: 100% !important;
-    overflow-x: auto;
+    width: 100%;
   }
 
   /* Mobile overlay sidebar */
