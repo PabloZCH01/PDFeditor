@@ -13,11 +13,13 @@ const PDFViewer = ({ pdfFile, onModificationUpdate, onModificationDelete, isEdit
   const canvasRef = useRef(null);
   const textLayerRef = useRef(null);
   const containerRef = useRef(null);
-  
+  const wrapperRef = useRef(null);
+
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [pdfDoc, setPdfDoc] = useState(null);
-  
+  const [containerWidth, setContainerWidth] = useState(null);
+  const [naturalPageWidth, setNaturalPageWidth] = useState(null);
 
   const [isRendering, setIsRendering] = useState(false);
   const [textContentData, setTextContentData] = useState(null);
@@ -35,6 +37,27 @@ const PDFViewer = ({ pdfFile, onModificationUpdate, onModificationDelete, isEdit
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
+  // Measure wrapper width with ResizeObserver for responsive fit
+  useEffect(() => {
+    if (!wrapperRef.current) return;
+    const ro = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+    ro.observe(wrapperRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  // Compute effective scale: never render wider than the container
+  const effectiveScale = (() => {
+    if (containerWidth && naturalPageWidth && naturalPageWidth > 0) {
+      const fitScale = (containerWidth - 4) / naturalPageWidth; // 4px safety margin
+      return Math.min(scale, fitScale);
+    }
+    return scale;
+  })();
+
   useEffect(() => {
     const loadPdf = async () => {
       if (!pdfFile) return;
@@ -45,6 +68,10 @@ const PDFViewer = ({ pdfFile, onModificationUpdate, onModificationDelete, isEdit
       setPdfDoc(document);
       setNumPages(document.numPages);
       setPageNumber(1);
+      // Measure natural page width at scale=1 to compute fit later
+      const firstPage = await document.getPage(1);
+      const vp = firstPage.getViewport({ scale: 1 });
+      setNaturalPageWidth(vp.width);
     };
     loadPdf();
   }, [pdfFile]);
@@ -58,7 +85,7 @@ const PDFViewer = ({ pdfFile, onModificationUpdate, onModificationDelete, isEdit
       
       try {
         const page = await pdfDoc.getPage(pageNumber);
-        const viewport = page.getViewport({ scale });
+        const viewport = page.getViewport({ scale: effectiveScale });
         
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
@@ -87,7 +114,7 @@ const PDFViewer = ({ pdfFile, onModificationUpdate, onModificationDelete, isEdit
     };
 
     renderPage();
-  }, [pdfDoc, pageNumber, scale]);
+  }, [pdfDoc, pageNumber, effectiveScale]);
 
   /**
    * Enhanced OCR with high-resolution rendering and image preprocessing.
@@ -599,7 +626,7 @@ const PDFViewer = ({ pdfFile, onModificationUpdate, onModificationDelete, isEdit
 
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div ref={wrapperRef} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
       
       <div 
         ref={containerRef} 
