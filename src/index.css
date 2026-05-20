@@ -1,46 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Dancing+Script:wght@400;700&display=swap');
 
+/* ════════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════════ */
 :root {
   --bg-primary: #0f1115;
   --bg-secondary: rgba(25, 28, 36, 0.7);
   --bg-panel: rgba(25, 28, 36, 0.85);
-  
+
   --text-primary: #ffffff;
   --text-secondary: #94a3b8;
   --text-accent: #38bdf8;
-  
+
   --border-color: rgba(255, 255, 255, 0.08);
   --border-focus: rgba(56, 189, 248, 0.5);
-  
+
   --glass-bg: rgba(20, 23, 31, 0.6);
   --glass-border: rgba(255, 255, 255, 0.05);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  
+
   --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
   --accent-solid: #38bdf8;
   --accent-hover: #0ea5e9;
-  
-  --sidebar-width: 280px;
+
+  --sidebar-width: 220px;
   --toolbar-height: 60px;
 }
 
-/* Light Mode Theme */
+/* ════════════════════════════════════════════
+   LIGHT MODE THEME
+════════════════════════════════════════════ */
 .light-mode {
   --bg-primary: #f0f2f5;
   --bg-secondary: rgba(255, 255, 255, 0.85);
   --bg-panel: rgba(255, 255, 255, 0.92);
-
   --text-primary: #1a1a2e;
   --text-secondary: #64748b;
   --text-accent: #0284c7;
-
   --border-color: rgba(0, 0, 0, 0.08);
   --border-focus: rgba(2, 132, 199, 0.5);
-
   --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(0, 0, 0, 0.06);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
-
   --accent-gradient: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
   --accent-solid: #0284c7;
   --accent-hover: #0369a1;
@@ -62,26 +63,20 @@
 .light-mode .btn-secondary:hover {
   background: rgba(0, 0, 0, 0.08);
 }
-
-.light-mode .toggle-btn {
-  color: var(--text-secondary);
-}
+.light-mode .toggle-btn { color: var(--text-secondary); }
 .light-mode .toggle-btn.active {
   background: white;
   color: var(--text-primary);
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-
 .light-mode .sidebar {
   background: var(--bg-panel);
   border-right: 1px solid var(--border-color);
 }
-
 .light-mode .thumbnail-placeholder {
   background: rgba(0, 0, 0, 0.02);
   border-color: rgba(0, 0, 0, 0.1);
 }
-
 .light-mode .upload-prompt {
   border-color: rgba(0, 0, 0, 0.12);
   background: rgba(0, 0, 0, 0.02);
@@ -91,8 +86,13 @@
   border-color: var(--accent-solid);
   background: rgba(2, 132, 199, 0.03);
 }
+.light-mode .mobile-sidebar-drawer {
+  background: var(--bg-panel);
+}
 
-/* Smooth theme transitions */
+/* ════════════════════════════════════════════
+   SMOOTH THEME TRANSITIONS
+════════════════════════════════════════════ */
 .app-container,
 .app-container .top-toolbar,
 .app-container .sidebar,
@@ -103,6 +103,9 @@
   transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
+/* ════════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════════ */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -113,10 +116,10 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  height: 100vh;
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
-  background-image: 
+  background-image:
     radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.03), transparent 25%),
     radial-gradient(circle at 85% 30%, rgba(129, 140, 248, 0.03), transparent 25%);
 }
@@ -127,7 +130,9 @@ body {
   display: flex;
 }
 
-/* App Shell */
+/* ════════════════════════════════════════════
+   APP SHELL
+════════════════════════════════════════════ */
 .app-container {
   display: flex;
   height: 100%;
@@ -135,6 +140,9 @@ body {
   flex-direction: column;
 }
 
+/* ════════════════════════════════════════════
+   TOP TOOLBAR
+════════════════════════════════════════════ */
 .top-toolbar {
   height: var(--toolbar-height);
   width: 100%;
@@ -145,17 +153,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 20px;
   z-index: 100;
+  flex-shrink: 0;
+  gap: 8px;
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: -0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .logo-icon {
@@ -167,20 +179,33 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
+  flex-shrink: 0;
+}
+
+.toolbar-center-tools {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
 }
 
 .toolbar-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
+/* ════════════════════════════════════════════
+   BUTTONS
+════════════════════════════════════════════ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 8px 14px;
   border-radius: 6px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -188,6 +213,8 @@ body {
   transition: all 0.2s ease;
   border: none;
   font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-primary {
@@ -195,46 +222,52 @@ body {
   color: white;
   box-shadow: 0 4px 12px rgba(56, 189, 248, 0.25);
 }
-
 .btn-primary:hover {
   opacity: 0.9;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(56, 189, 248, 0.35);
 }
-
 .btn-secondary {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
 }
-
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* Main Content Area */
+/* ════════════════════════════════════════════
+   MAIN CONTENT
+════════════════════════════════════════════ */
 .main-content {
   display: flex;
+  flex-direction: row;
   flex: 1;
   overflow: hidden;
   position: relative;
 }
 
+/* ════════════════════════════════════════════
+   SIDEBAR (Desktop)
+════════════════════════════════════════════ */
 .sidebar {
   width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
   background: var(--bg-panel);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(20px);
   z-index: 90;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .sidebar-header {
-  padding: 16px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--border-color);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -243,15 +276,15 @@ body {
 .thumbnails-container {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .thumbnail-placeholder {
   width: 100%;
-  aspect-ratio: 1 / 1.414; /* A4 Ratio */
+  aspect-ratio: 1 / 1.414;
   background: rgba(255, 255, 255, 0.03);
   border: 1px dashed var(--border-color);
   border-radius: 6px;
@@ -263,21 +296,30 @@ body {
   transition: all 0.2s;
   cursor: pointer;
 }
-
-.thumbnail-placeholder:hover, .thumbnail-placeholder.active {
+.thumbnail-placeholder:hover,
+.thumbnail-placeholder.active {
   border-color: var(--accent-solid);
   background: rgba(56, 189, 248, 0.05);
 }
 
-/* Viewer Area */
+/* ════════════════════════════════════════════
+   VIEWER AREA
+════════════════════════════════════════════ */
 .viewer-area {
   flex: 1;
   background-color: var(--bg-primary);
   overflow: auto;
-  padding: 40px;
+  padding: 28px 20px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
 }
 
+/* ════════════════════════════════════════════
+   UPLOAD PROMPT
+════════════════════════════════════════════ */
 .upload-prompt {
   display: flex;
   flex-direction: column;
@@ -285,31 +327,38 @@ body {
   justify-content: center;
   gap: 16px;
   color: var(--text-secondary);
-  padding: 48px;
+  padding: 40px 24px;
   border: 2px dashed var(--border-color);
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.02);
   transition: all 0.2s;
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+  text-align: center;
 }
-
 .upload-prompt:hover {
   border-color: var(--accent-solid);
   background: rgba(56, 189, 248, 0.02);
 }
 
-.hidden-file-input {
-  display: none;
-}
+.hidden-file-input { display: none; }
 
-/* Mock Canvas Page */
+/* ════════════════════════════════════════════
+   PDF PAGE
+════════════════════════════════════════════ */
 .pdf-page-container {
   position: relative;
-  background: white; /* PDF pages are usually white */
+  background: white;
   box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
   margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-/* Utilities */
+/* ════════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════════ */
 .glass-panel {
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
@@ -319,45 +368,37 @@ body {
   box-shadow: var(--glass-shadow);
 }
 
-/* Edit Mode Toggle */
-.toolbar-center-tools {
-  display: flex;
-  align-items: center;
-}
-
 .mode-toggle-group {
   display: flex;
   background: rgba(0,0,0,0.3);
   border-radius: 8px;
-  padding: 4px; border: 1px solid var(--glass-border);
+  padding: 4px;
+  border: 1px solid var(--glass-border);
 }
-
 .toggle-btn {
   background: transparent;
   color: var(--text-secondary);
   border: none;
   border-radius: 6px;
-  padding: 6px 16px;
+  padding: 6px 14px;
+  cursor: pointer;
 }
-
-.toggle-btn:hover {
-  background: rgba(255,255,255,0.05);
-}
-
+.toggle-btn:hover { background: rgba(255,255,255,0.05); }
 .toggle-btn.active {
   background: var(--bg-panel);
   color: var(--text-primary);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* Ad Slots */
+/* ════════════════════════════════════════════
+   AD SLOTS
+════════════════════════════════════════════ */
 .ad-slot {
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.02);
   border: 1px dashed rgba(255, 255, 255, 0.1);
-  margin: 10px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -378,10 +419,13 @@ body {
 }
 
 .ad-slot.bottom-banner {
-  height: 90px;
+  height: auto;
+  min-height: 70px;
   width: 100%;
   max-width: 728px;
-  margin: 20px auto;
+  margin: 0 auto;
+  border: none;
+  background: transparent;
 }
 
 .ad-slot.sidebar-left,
@@ -390,23 +434,214 @@ body {
   height: 600px;
   position: sticky;
   top: 20px;
+  margin: 10px;
 }
 
-.main-content {
-  display: flex;
-  flex-direction: row;
+/* ════════════════════════════════════════════
+   MOBILE SIDEBAR DRAWER
+════════════════════════════════════════════ */
+.mobile-sidebar-toggle {
+  display: none;
 }
 
-.viewer-area {
+.mobile-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 200;
+  backdrop-filter: blur(2px);
+}
+
+.mobile-sidebar-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 260px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border-color);
+  z-index: 201;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.4);
 }
 
-@media (max-width: 1200px) {
+.mobile-sidebar-drawer.open {
+  transform: translateX(0);
+}
+
+.mobile-sidebar-drawer .sidebar-header {
+  padding: 20px 16px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-sidebar-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.mobile-sidebar-close:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-primary);
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE: TABLET (≤ 1024px)
+════════════════════════════════════════════ */
+@media (max-width: 1024px) {
   .ad-slot.sidebar-left,
   .ad-slot.sidebar-right {
     display: none;
   }
+
+  .ad-slot.top-banner {
+    height: 70px;
+  }
+
+  :root {
+    --sidebar-width: 200px;
+  }
 }
 
+/* ════════════════════════════════════════════
+   RESPONSIVE: MOBILE (≤ 768px)
+════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  :root {
+    --toolbar-height: 56px;
+  }
+
+  body {
+    overflow: hidden;
+  }
+
+  /* Hide desktop sidebar, show mobile toggle */
+  .sidebar {
+    display: none;
+  }
+
+  .mobile-sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .mobile-sidebar-toggle:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* Toolbar compact */
+  .top-toolbar {
+    padding: 0 12px;
+    gap: 6px;
+  }
+
+  .logo-container {
+    font-size: 0.9rem;
+    gap: 8px;
+  }
+
+  .logo-text {
+    display: none; /* hide "Nexus PDF Editor" text on small screens */
+  }
+
+  .toolbar-center-tools {
+    display: none;
+  }
+
+  /* Compact button labels */
+  .btn-label {
+    display: none;
+  }
+
+  .btn {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  /* Viewer fills screen */
+  .viewer-area {
+    padding: 16px 10px;
+  }
+
+  .ad-slot.top-banner {
+    display: none;
+  }
+
+  .ad-slot.bottom-banner {
+    margin: 0 auto;
+  }
+
+  /* Upload prompt */
+  .upload-prompt {
+    padding: 28px 16px;
+  }
+
+  /* PDF canvas auto-scale by wrapping */
+  .pdf-page-container {
+    width: 100% !important;
+    overflow-x: auto;
+  }
+
+  /* Mobile overlay sidebar */
+  .mobile-sidebar-overlay.open {
+    display: block;
+  }
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE: SMALL MOBILE (≤ 480px)
+════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .top-toolbar {
+    padding: 0 10px;
+    gap: 4px;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+  }
+
+  .btn {
+    padding: 7px 8px;
+    gap: 4px;
+    font-size: 0.78rem;
+  }
+
+  .viewer-area {
+    padding: 12px 6px;
+  }
+
+  .upload-prompt {
+    padding: 20px 12px;
+    gap: 12px;
+  }
+
+  .upload-prompt h3 {
+    font-size: 1rem;
+  }
+
+  .upload-prompt p {
+    font-size: 0.82rem;
+  }
+}

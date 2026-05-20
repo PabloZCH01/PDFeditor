@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Upload, Download, Settings, Sidebar as SidebarIcon, Edit3, Image, PenTool } from 'lucide-react';
+import { Upload, Download, Settings, Sidebar as SidebarIcon, Edit3, Image, PenTool, Menu, X } from 'lucide-react';
 import PDFViewer from './components/PDFViewer';
 import SettingsModal from './components/SettingsModal';
 import SignatureModal from './components/SignatureModal';
-import { AdLeft, AdTop, AdRight, AdBottomLink } from './components/Ads';
+import { AdTop, AdBottomLink } from './components/Ads';
 import { processPdfModifications } from './utils/pdfProcessor';
 import './index.css';
 
@@ -19,6 +19,7 @@ function App() {
   const [isEditMode, setIsEditMode] = useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSignatureModalOpen, setIsSignatureModalOpen] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [settings, setSettings] = useState(() => {
     try {
       const saved = localStorage.getItem('nexus-pdf-settings');
@@ -174,17 +175,26 @@ function App() {
     <div className={`app-container ${themeClass}`}>
       {/* Top Toolbar */}
       <header className="top-toolbar">
+        {/* Mobile sidebar toggle */}
+        <button
+          className="mobile-sidebar-toggle"
+          onClick={() => setIsMobileSidebarOpen(true)}
+          aria-label="Abrir menú lateral"
+        >
+          <Menu size={20} />
+        </button>
+
         <div className="logo-container">
           <div className="logo-icon">
             <Edit3 size={18} />
           </div>
-          Nexus PDF Editor
+          <span className="logo-text">Nexus PDF Editor</span>
         </div>
 
         <div className="toolbar-center-tools">
           {pdfFile && (
-            <div className="mode-indicator" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-accent)', fontSize: '0.9rem', fontWeight: '500' }}>
-              <Edit3 size={16} /> Modo Edición Activo
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-accent)', fontSize: '0.9rem', fontWeight: '500' }}>
+              <Edit3 size={16} /> <span className="btn-label">Modo Edición Activo</span>
             </div>
           )}
         </div>
@@ -193,13 +203,13 @@ function App() {
           {pdfFile && (
             <>
               <button className="btn btn-secondary" onClick={() => imageInputRef.current?.click()} title="Agregar Imagen">
-                <Image size={16} /> Imagen
+                <Image size={16} /> <span className="btn-label">Imagen</span>
               </button>
               <button className="btn btn-secondary" onClick={handleAddSignature} title="Agregar Firma">
-                <PenTool size={16} /> Firmar
+                <PenTool size={16} /> <span className="btn-label">Firmar</span>
               </button>
-              <button className="btn btn-primary" onClick={handleExportPDF}>
-                <Download size={16} /> Exportar PDF
+              <button className="btn btn-primary" onClick={handleExportPDF} title="Exportar PDF">
+                <Download size={16} /> <span className="btn-label">Exportar PDF</span>
               </button>
               <input
                 type="file"
@@ -212,17 +222,47 @@ function App() {
           )}
           <button
             className="btn btn-secondary glass-panel"
-            style={{ padding: '8px' }}
+            style={{ padding: '8px', width: '36px', height: '36px' }}
             onClick={() => setIsSettingsOpen(true)}
+            title="Configuración"
           >
             <Settings size={18} />
           </button>
         </div>
       </header>
 
+      {/* Mobile Sidebar Drawer */}
+      <div
+        className={`mobile-sidebar-overlay ${isMobileSidebarOpen ? 'open' : ''}`}
+        onClick={() => setIsMobileSidebarOpen(false)}
+        aria-hidden="true"
+      />
+      <div className={`mobile-sidebar-drawer ${isMobileSidebarOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <span>Páginas</span>
+          <button className="mobile-sidebar-close" onClick={() => setIsMobileSidebarOpen(false)} aria-label="Cerrar">
+            <X size={18} />
+          </button>
+        </div>
+        <div className="thumbnails-container">
+          {pdfFile ? (
+            <>
+              <div className="thumbnail-placeholder active">Página 1</div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', padding: '12px' }}>
+                ({modifications.length} ediciones registradas)
+              </div>
+            </>
+          ) : (
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textAlign: 'center', marginTop: '40px' }}>
+              Sube un PDF para ver las páginas
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Main Content */}
       <div className="main-content">
-        {/* Sidebar */}
+        {/* Sidebar (Desktop) */}
         <aside className="sidebar">
           <div className="sidebar-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span>Páginas</span>
@@ -243,11 +283,6 @@ function App() {
             )}
           </div>
         </aside>
-
-        {/* AD SLOT: SIDEBAR LEFT */}
-        <div className="ad-slot sidebar-left">
-          <AdLeft />
-        </div>
 
         {/* Viewer Area */}
         <main className="viewer-area">
@@ -282,11 +317,6 @@ function App() {
               />
             </div>
           )}
-
-          {/* AD SLOT: SIDEBAR RIGHT (Optional) */}
-          <div className="ad-slot sidebar-right">
-            <AdRight />
-          </div>
         </main>
       </div>
 
